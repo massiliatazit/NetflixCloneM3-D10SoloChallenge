@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+    integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<!-- [
+{
+    "_id": "5d3598a3a38caa57a0272d33", //SERVER GENERATED
+    "name": "app test 1",
+    "description": "somthing longer",
+    "category": "drama",
+    "imageUrl": "https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80",
+    "userId": "admin",  //SERVER GENERATED
+    "createdAt": "2019-07-22T11:06:11.784Z",  //SERVER GENERATED
+    "updatedAt": "2019-07-22T11:06:11.784Z",  //SERVER GENERATED
+    "__v": 0  //SERVER GENERATED
+}
+] -->
+
+<body id='backoffice_body'>
+  <!--NAVBAR START-->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand mt-5" href="#"><a href="https://fontmeme.com/netflix-font/"><img
+          src="https://fontmeme.com/permalink/201016/43d068e8e91bfc2ab70c55cd3afe6508.png" alt="netflix-font" border="0"
+          class="mt-2"></a></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tv shows</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">New & Popular</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">My list</a>
+        </li>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <i class="fas fa-search mr-sm-2"></i>
+        <a class="nav-link mr-sm-2">KIDS</a>
+        <i class="fas fa-gift mr-3"></i>
+        <a href="settings.html"><i class="fas fa-bell"></i></a>
+        <a href="account.html"> <img
+            src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/84c20033850498.56ba69ac290ea.png" width=30></a>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+        </a>
+      </form>
+    </div>
+  </nav>
+  <!--NAVBAR END-->
+    <!--FORM START-->
+    <div class="container backoffice_container ">
+        <div class="row mt-5">
+            <div class="col-md-9">
+  <form onsubmit="handleSubmit(event)" class="MoviesForm">
+    <h2>Enter a movie</h2>
+    <ul class="noBullet">
+      <li>
+        <label for="name"></label>
+        <input type="text" class="inputFields" id="name" name="name" placeholder="Name" value="" oninput="return NameValidation(this.value)" required/>
+      </li>
+      <li>
+        <label for="description"><textarea
+            class="inputFields" 
+            id="description"
+            rows="3"
+            placeholder="Product description"
+          ></textarea></label>
+       
+      </li>
+      <li>
+        <label for="category"></label>
+        <input type="text" class="inputFields" id="category" name="category" placeholder="Category"/>
+      </li>
+      <li>
+        <label for="imageUrl"></label>
+        <input type="url" class="inputFields" id="imageUrl" name="Image" placeholder="Image"/>
+      </li>
+      
+      <li id="center-btn">
+        <button type="submit" id="join-btn" name="join" alt="Join" value="Submit">
+        <span
+        class="spinner-border spinner-border-sm d-none"
+        role="status"
+        aria-hidden="true"
+        id="loadingSpinner"
+      ></span>
+      Submit
+      </button>
+      </li>
+    </ul>
+  </form>
+
+</div>
+</div>
+    </div>
+
+<!--FORM END-->
+
+<!-- Javascript -->
+<script>
+
+
+    // Name Validation
+
+    var alertRedInput = "#8C1010";
+var defaultInput = "rgba(10, 180, 180, 1)";
+
+function NameValidation(usernameInput) {
+    var username = document.getElementById("name");
+    var issueArr = [];
+    if (/[-!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(usernameInput)) {
+        issueArr.push("No special characters!");
+    }
+    if (issueArr.length > 0) {
+        username.setCustomValidity(issueArr);
+        username.style.borderColor = alertRedInput;
+    } else {
+        username.setCustomValidity("");
+        username.style.borderColor = defaultInput;
+    }
+}
+
+// POST THE DATA
+window.onload = async () => {
+  const url="https://striveschool-api.herokuapp.com/api/movies/";
+    let urlParams = new URLSearchParams(window.location.search);
+    let id= urlParams.get("id");
+    console.log(id)
+   
+        if (id) {
+          let response = await fetch(url + id, {
+            headers: new Headers({
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFlNjgyZTQxNjJkMzAwMTdjMGI1YjEiLCJpYXQiOjE2MDUyNjU0NTQsImV4cCI6MTYwNjQ3NTA1NH0.-XHS3eGsX-wnyWU4_zwxtwO-JQpqj45wSD4HbySkUWA",
+            }),
+          }); // contacting the endpoint for a single event
+          let movie = await response.json(); // transforming the response body in an usable object, asyncronous operation!
+          console.log(id);
+          document.getElementById("name").value = movie.name;
+          document.getElementById("description").value = movie.description;
+          document.getElementById("imageUrl").value = movie.imageUrl;
+           document.getElementById("category").value=movie.category;
+         
+        }
+      };
+
+     const handleSubmit=(e)=>{
+        e.preventDefault();
+        submitMoviesInfo();
+
+     }
+    
+     const submitMoviesInfo=async()=>{
+        let spinner = document.querySelector("#loadingSpinner");
+        spinner.classList.toggle("d-none");
+
+        let myMovies = {
+          name: document.querySelector("#name").value,
+          description: document.querySelector("#description").value,
+         
+      
+          category: document.querySelector("#category").value,
+          imageUrl: document.querySelector("#imageUrl").value,
+        };
+
+        try{
+            let response;
+            if(id){
+
+                response=await fetch(url+id,{
+                    method: "PUT", // declaring the CRUD method
+              body: JSON.stringify(myMovies), // make the JS object a string in order to send it
+              headers: new Headers({
+                  // declare the content type to convert it back to an object
+                "Content-Type": "application/json",
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiZTRhMjRiY2RlMTAwMTc2MTZhYjAiLCJpYXQiOjE2MDUxMDA3MDcsImV4cCI6MTYwNjMxMDMwN30.rccqHyMdYa4XJNV6tpobEWZ7oeR0YRuKZSwDk7zv8VM",
+
+
+
+
+                }),
+            });
+            } else{
+                response=await fetch(url,{
+                    method:'POST',
+                    body:JSON.stringify(myMovies),
+                    headers: new Headers({
+                        "Content-Type": "application/json",
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiZTRhMjRiY2RlMTAwMTc2MTZhYjAiLCJpYXQiOjE2MDUxMDA3MDcsImV4cCI6MTYwNjMxMDMwN30.rccqHyMdYa4XJNV6tpobEWZ7oeR0YRuKZSwDk7zv8VM",
+
+
+
+
+                    }),
+
+
+
+                })
+
+
+            }
+
+           
+                if (response.ok) {
+            spinner.classList.toggle("d-none"); // hiding the spinner
+            alert(`product ${id ? "updated" : "created"} successfully`);
+            alert("product sent to the API");
+            location.assign("index.html");
+          } else {
+            spinner.classList.toggle("d-none");
+            alert("Check what is wrong");
+
+
+
+
+
+        }
+        }catch (error) {
+          console.log(error);
+
+
+
+
+
+     }}
+     
+</script>
+
+
+ 
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
