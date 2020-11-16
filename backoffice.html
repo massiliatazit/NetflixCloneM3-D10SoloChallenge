@@ -125,13 +125,19 @@
 
 
     // Name Validation
+    const url = "https://striveschool-api.herokuapp.com/api/movies/";
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        submitMovies();
 
-    var alertRedInput = "#8C1010";
-var defaultInput = "rgba(10, 180, 180, 1)";
+     }
+    
+    let alertRedInput = "#8C1010";
+let defaultInput = "rgba(10, 180, 180, 1)";
 
 function NameValidation(usernameInput) {
-    var username = document.getElementById("name");
-    var issueArr = [];
+    let username = document.getElementById("name");
+    let issueArr = [];
     if (/[-!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/.test(usernameInput)) {
         issueArr.push("No special characters!");
     }
@@ -145,36 +151,8 @@ function NameValidation(usernameInput) {
 }
 
 // POST THE DATA
-window.onload = async () => {
-  const url="https://striveschool-api.herokuapp.com/api/movies/";
-    let urlParams = new URLSearchParams(window.location.search);
-    let id= urlParams.get("id");
-    console.log(id)
-   
-        if (id) {
-          let response = await fetch(url + id, {
-            headers: new Headers({
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFlNjgyZTQxNjJkMzAwMTdjMGI1YjEiLCJpYXQiOjE2MDUyNjU0NTQsImV4cCI6MTYwNjQ3NTA1NH0.-XHS3eGsX-wnyWU4_zwxtwO-JQpqj45wSD4HbySkUWA",
-            }),
-          }); // contacting the endpoint for a single event
-          let movie = await response.json(); // transforming the response body in an usable object, asyncronous operation!
-          console.log(id);
-          document.getElementById("name").value = movie.name;
-          document.getElementById("description").value = movie.description;
-          document.getElementById("imageUrl").value = movie.imageUrl;
-           document.getElementById("category").value=movie.category;
-         
-        }
-      };
-
-     const handleSubmit=(e)=>{
-        e.preventDefault();
-        submitMoviesInfo();
-
-     }
-    
-     const submitMoviesInfo=async()=>{
-        let spinner = document.querySelector("#loadingSpinner");
+const submitMovies = async () => {
+  let spinner = document.querySelector("#loadingSpinner");
         spinner.classList.toggle("d-none");
 
         let myMovies = {
@@ -184,71 +162,31 @@ window.onload = async () => {
       
           category: document.querySelector("#category").value,
           imageUrl: document.querySelector("#imageUrl").value,
-        };
+ 
+};
+try{ let response = await fetch(url,{
 
-        try{
-            let response;
-            if(id){
-
-                response=await fetch(url+id,{
-                    method: "PUT", // declaring the CRUD method
-              body: JSON.stringify(myMovies), // make the JS object a string in order to send it
-              headers: new Headers({
-                  // declare the content type to convert it back to an object
-                "Content-Type": "application/json",
-                Authorization:
+  method:"POST",
+  body:JSON.stringify(myMovies),
+  headers:new Headers({
+    "Content-Type": "application/json",
+    "Authorization":
                   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiZTRhMjRiY2RlMTAwMTc2MTZhYjAiLCJpYXQiOjE2MDUxMDA3MDcsImV4cCI6MTYwNjMxMDMwN30.rccqHyMdYa4XJNV6tpobEWZ7oeR0YRuKZSwDk7zv8VM",
+  }),
 
 
+});
+if(response.ok){
+  alert('Event created successfully');
+  location.assign('index.html');
+}else{
+  alert('Something went wrong!')
+}
 
 
-                }),
-            });
-            } else{
-                response=await fetch(url,{
-                    method:'POST',
-                    body:JSON.stringify(myMovies),
-                    headers: new Headers({
-                        "Content-Type": "application/json",
-                Authorization:
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmFiZTRhMjRiY2RlMTAwMTc2MTZhYjAiLCJpYXQiOjE2MDUxMDA3MDcsImV4cCI6MTYwNjMxMDMwN30.rccqHyMdYa4XJNV6tpobEWZ7oeR0YRuKZSwDk7zv8VM",
-
-
-
-
-                    }),
-
-
-
-                })
-
-
-            }
-
-           
-                if (response.ok) {
-            spinner.classList.toggle("d-none"); // hiding the spinner
-            alert(`product ${id ? "updated" : "created"} successfully`);
-            alert("product sent to the API");
-            location.assign("index.html");
-          } else {
-            spinner.classList.toggle("d-none");
-            alert("Check what is wrong");
-
-
-
-
-
-        }
-        }catch (error) {
-          console.log(error);
-
-
-
-
-
-     }}
-     
+}catch(error){
+  console.log(error);}
+}
 </script>
 
 
